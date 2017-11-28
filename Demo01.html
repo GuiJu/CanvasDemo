@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>基本Demo</title>
+</head>
+<body>
+<!-- 不建议使用css指定canvas大小 -->
+<canvas id="canvas" width="1024" height="768" style="border: 1px solid #aaa">
+    当前浏览器不支持canvas, 请更换浏览器后再试
+</canvas>
+
+<script>
+    window.onload = function () {
+        var canvas = document.getElementById('canvas');
+
+        // 和标签指定效果一样
+        canvas.width = 1024;
+        canvas.height = 768;
+
+        if (canvas.getContext('2d')) {
+            var context = canvas.getContext('2d');
+            // 使用context进行绘制
+
+        }
+        else {
+            alert('当前浏览器不支持canvas, 请更换浏览器后再试')
+        }
+    }
+</script>
+</body>
+</html>

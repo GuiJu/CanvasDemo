@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ball小球动画</title>
+</head>
+<body>
+<canvas id="canvas" style="border: lightgrey 2px solid"></canvas>
+
+<script>
+    /**
+     * @file
+     * @author jutal
+     * @date 17-11-28.
+     */
+
+    var WINDOW_WIDTH = 1000;
+    var WINDOW_HEIGHT = 400;
+    var ball = {
+        x: 500,
+        y: 100,
+        r: 20,
+        g: .1,
+        vx: 5,
+        vy: -5,
+        color: '#005588'
+    };
+
+    window.onload = function () {
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+
+        canvas.width = WINDOW_WIDTH;
+        canvas.height = WINDOW_HEIGHT;
+
+        setInterval(function () {
+            render(context);
+            update()
+        }, 1000);
+    };
+
+    // 绘制
+    function render(cxt) {
+
+        // 对矩形平面的内容进行刷新
+        cxt.clearRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+        cxt.fillStyle = ball.color;
+        cxt.beginPath();
+        cxt.arc(ball.x, ball.y, ball.r, 0, 2 * Math.PI);
+        cxt.closePath();
+
+        cxt.fill();
+    }
+
+    function update() {
+        // 飞行损耗的摩擦系数
+        var u = .999;
+        ball.vx = ball.vx * u;
+        ball.x += ball.vx;
+        if (Math.abs(ball.x) < .05) {
+            ball.x = 0;
+        }
+
+        ball.vy = ball.vy * u;
+        ball.y += ball.vy;
+        ball.vy += ball.g;
+        if (Math.abs(ball.y) < .05) {
+            ball.y = 0;
+        }
+
+        // 上边缘碰撞加测
+        if (ball.y <= ball.r) {
+            ball.y = ball.r;
+            ball.vy = lossY(ball.vy);
+        }
+
+        // 右边缘碰撞加测
+        if (ball.x >= WINDOW_WIDTH - ball.r) {
+            ball.x = WINDOW_WIDTH - ball.r;
+            ball.vx = lossX(ball.vx);
+        }
+
+        // 下边缘碰撞检测
+        if (ball.y >= WINDOW_HEIGHT - ball.r) {
+            ball.y = WINDOW_HEIGHT - ball.r;
+            ball.vy = lossY(ball.vy);
+        }
+
+        // 左边缘碰撞加测
+        if (ball.x <= ball.r) {
+            ball.x = ball.r;
+            ball.vx = lossX(ball.vx);
+        }
+    }
+
+    // Y方向的碰撞损耗
+    function lossY(vy) {
+        var loss = .45;
+
+        if (vy > 0 && Math.abs(vy) >= loss) {
+            vy = -(vy - loss);
+            console.log('vy: ' + vy);
+        } else if (vy < 0 && Math.abs(vy) >= loss) {
+            vy = -(vy + loss);
+            console.log('vy: ' + vy);
+        } else {
+            vy = 0;
+        }
+        return vy;
+    }
+
+    // X方向的碰撞损耗
+    function lossX(vx) {
+        var loss = .45;
+
+        if (vx > 0 && Math.abs(vx) >= loss) {
+            vx = -(vx - loss);
+            console.log('vx: ' + vx);
+        }
+        else if (vx < 0 && Math.abs(vx) >= loss) {
+            vx = -(vx + loss);
+            console.log('vx: ' + vx);
+        }
+        else {
+            vx = 0;
+        }
+        return vx;
+    }
+
+</script>
+</body>
+</html>

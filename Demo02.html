@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>画直线填颜色</title>
+</head>
+<body>
+<!-- 不建议使用css指定canvas大小 -->
+<canvas id="canvas" width="1024" height="768" style="border: 1px solid #aaa">
+    当前浏览器不支持canvas, 请更换浏览器后再试
+</canvas>
+
+<script>
+    window.onload = function () {
+        var canvas = document.getElementById('canvas');
+
+        // 和标签指定效果一样
+        canvas.width = 1024;
+        canvas.height = 768;
+
+        var context = canvas.getContext('2d');
+        // 使用context进行绘制
+
+        // 原点在左上角
+        context.beginPath();
+        context.moveTo(0, 0);
+        context.lineTo(700, 700);
+        context.lineTo(0, 700);
+        context.lineTo(0, 0);
+        context.closePath();
+
+        context.lineWidth = 6;
+        context.strokeStyle = 'rgba(230, 34, 104, .3)';
+
+        // 划线
+        context.stroke();
+
+        // 填充
+        context.fillStyle = 'rgba(230, 34, 104, .2)';
+        context.fill();
+
+        context.beginPath();
+        context.moveTo(200, 100);
+        context.lineTo(700, 600);
+        context.closePath();
+        context.strokeStyle = 'green';
+        context.stroke();
+    }
+</script>
+</body>
+</html>
